@@ -861,6 +861,191 @@ document.getElementById("btnSm").addEventListener("click",()=>{fState=Math.max(-
 function goHome() { window.location.href="index.html"; }
 
 // ═══════════════════════════════════════════════════════════
+//  AUDIO ENGINE
+// ═══════════════════════════════════════════════════════════
+let _ctx=null, _master=null, _muted=false, _audioReady=false;
+function aC(){ if(!_ctx) _ctx=new(window.AudioContext||window.webkitAudioContext)(); return _ctx; }
+function aM(){ const c=aC(); if(!_master){_master=c.createGain();_master.gain.value=_muted?0:1;_master.connect(c.destination);} return _master; }
+function toM(n){ n.connect(aM()); }
+
+// Muted short click — UI interactions
+function sfxClick(freq=900, dur=0.03, vol=0.04){
+  if(_muted)return; const c=aC(),t=c.currentTime;
+  const o=c.createOscillator(),g=c.createGain();
+  o.type='square'; o.frequency.value=freq;
+  g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+  o.connect(g); toM(g); o.start(t); o.stop(t+dur+0.01);
+}
+
+// Soft open — modal/panel appear
+function sfxOpen(){
+  if(_muted)return; const c=aC(),t=c.currentTime;
+  const o=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter();
+  o.type='sine'; o.frequency.setValueAtTime(320,t); o.frequency.linearRampToValueAtTime(640,t+0.18);
+  f.type='lowpass'; f.frequency.value=1400;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.05,t+0.04); g.gain.exponentialRampToValueAtTime(0.001,t+0.22);
+  o.connect(f); f.connect(g); toM(g); o.start(t); o.stop(t+0.25);
+}
+
+// Soft close
+function sfxClose(){
+  if(_muted)return; const c=aC(),t=c.currentTime;
+  const o=c.createOscillator(),g=c.createGain();
+  o.type='sine'; o.frequency.setValueAtTime(480,t); o.frequency.linearRampToValueAtTime(220,t+0.14);
+  g.gain.setValueAtTime(0.045,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.16);
+  o.connect(g); toM(g); o.start(t); o.stop(t+0.18);
+}
+
+// Intro: boot hum
+function sfxBootHum(){
+  const c=aC(),t=c.currentTime;
+  const o1=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter();
+  o1.type='sawtooth'; o1.frequency.value=48;
+  o2.type='sine'; o2.frequency.setValueAtTime(52,t); o2.frequency.linearRampToValueAtTime(49,t+4);
+  f.type='lowpass'; f.frequency.value=300; f.Q.value=2;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.06,t+1.8); g.gain.linearRampToValueAtTime(0,t+7);
+  o1.connect(f); o2.connect(f); f.connect(g); toM(g);
+  o1.start(t); o2.start(t); o1.stop(t+7); o2.stop(t+7);
+}
+
+// Intro: power-up sweep
+function sfxPowerUp(delay=0){
+  const c=aC(),t=c.currentTime+delay;
+  const o=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter();
+  o.type='sawtooth'; o.frequency.setValueAtTime(60,t); o.frequency.exponentialRampToValueAtTime(880,t+1.1);
+  f.type='bandpass'; f.frequency.value=600; f.Q.value=3;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.08,t+0.15); g.gain.linearRampToValueAtTime(0,t+1.1);
+  o.connect(f); f.connect(g); toM(g); o.start(t); o.stop(t+1.2);
+}
+
+// Intro: glitch burst
+function sfxGlitch(delay=0){
+  const c=aC(),t=c.currentTime+delay;
+  for(let i=0;i<6;i++){
+    const o=c.createOscillator(),g=c.createGain(),ot=t+i*0.06;
+    o.type=Math.random()>.5?'square':'sawtooth'; o.frequency.value=200+Math.random()*2400;
+    g.gain.setValueAtTime(0.055,ot); g.gain.exponentialRampToValueAtTime(0.001,ot+0.04);
+    o.connect(g); toM(g); o.start(ot); o.stop(ot+0.05);
+  }
+  const bl=c.sampleRate*0.12,buf=c.createBuffer(1,bl,c.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<bl;i++) d[i]=(Math.random()*2-1)*0.14;
+  const src=c.createBufferSource(),ng=c.createGain(),nf=c.createBiquadFilter();
+  src.buffer=buf; nf.type='highpass'; nf.frequency.value=1800;
+  ng.gain.setValueAtTime(0.1,t); ng.gain.linearRampToValueAtTime(0,t+0.35);
+  src.connect(nf); nf.connect(ng); toM(ng); src.start(t);
+}
+
+// Intro: data ticks
+let _tickInt=null;
+function sfxStartTicks(){ _tickInt=setInterval(()=>{if(_muted)return; const c=aC(),t=c.currentTime,o=c.createOscillator(),g=c.createGain(); o.type='square'; o.frequency.value=700+Math.random()*1400; g.gain.setValueAtTime(0.016,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.022); o.connect(g); toM(g); o.start(t); o.stop(t+0.03); },75); }
+function sfxStopTicks(){ if(_tickInt){clearInterval(_tickInt);_tickInt=null;} }
+
+// Intro: access granted chord
+function sfxGranted(delay=0){
+  const c=aC(),t=c.currentTime+delay;
+  [220,330,440,660].forEach((freq,i)=>{
+    const o=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter();
+    o.type=i%2===0?'sawtooth':'sine'; o.frequency.value=freq;
+    f.type='lowpass'; f.frequency.value=1800; f.Q.value=1;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.05,t+0.04);
+    g.gain.setValueAtTime(0.05,t+0.18); g.gain.exponentialRampToValueAtTime(0.001,t+1.4);
+    o.connect(f); f.connect(g); toM(g); o.start(t); o.stop(t+1.5);
+  });
+  const s=c.createOscillator(),sg=c.createGain();
+  s.type='sine'; s.frequency.value=2200;
+  sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(0.035,t+0.05); sg.gain.exponentialRampToValueAtTime(0.001,t+0.55);
+  s.connect(sg); toM(sg); s.start(t); s.stop(t+0.6);
+}
+
+// Ambient low pad
+function sfxAmbient(delay=0){
+  const c=aC(),t=c.currentTime+delay;
+  const o1=c.createOscillator(),o2=c.createOscillator(),lfo=c.createOscillator(),lfoG=c.createGain(),g=c.createGain(),f=c.createBiquadFilter();
+  o1.type='sine'; o1.frequency.value=55; o2.type='sine'; o2.frequency.value=82.5;
+  lfo.type='sine'; lfo.frequency.value=0.18; lfoG.gain.value=5;
+  lfo.connect(lfoG); lfoG.connect(o1.frequency);
+  f.type='lowpass'; f.frequency.value=260;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.03,t+2.5);
+  o1.connect(f); o2.connect(f); f.connect(g); toM(g);
+  o1.start(t); o2.start(t); lfo.start(t);
+}
+
+// Run intro audio sequence
+function runIntroAudio(){
+  sfxBootHum();
+  sfxPowerUp(0.4);
+  sfxGlitch(0.9);
+  setTimeout(sfxStartTicks, 1500);
+  setTimeout(sfxStopTicks,  4900);
+  sfxGranted(4.9);
+  sfxAmbient(2.2);
+}
+
+// Trigger audio on first interaction (browser autoplay policy)
+let _audioTriggered=false;
+function triggerAudio(){
+  if(_audioTriggered)return; _audioTriggered=true;
+  document.removeEventListener("mousemove",triggerAudio);
+  document.removeEventListener("keydown",triggerAudio);
+  if(!_audioReady) return; // only run if intro is pending
+  runIntroAudio();
+}
+// Also attempt immediately if context allowed
+function primeAudio(){
+  try{ aC(); if(_ctx.state==="running"){ _audioReady=true; } }catch(e){}
+}
+
+// Mute button injection
+function injectMuteBtn(){
+  const btn=document.createElement("button");
+  btn.id="sfx-mute-btn";
+  btn.textContent="🔊";
+  btn.title="Toggle SFX";
+  btn.style.cssText="position:fixed;bottom:10px;right:10px;z-index:9999;background:none;border:1px solid #1c2a38;color:#3f5a6a;font-size:.6rem;padding:4px 9px;cursor:pointer;font-family:'Share Tech Mono',monospace;letter-spacing:.1em;transition:all .2s;";
+  btn.addEventListener("mouseenter",()=>{ btn.style.borderColor="var(--accent,#00e5cc)"; btn.style.color="var(--accent,#00e5cc)"; });
+  btn.addEventListener("mouseleave",()=>{ btn.style.borderColor="#1c2a38"; btn.style.color="#3f5a6a"; });
+  btn.addEventListener("click",()=>{
+    _muted=!_muted;
+    if(_master) _master.gain.setTargetAtTime(_muted?0:1,aC().currentTime,0.05);
+    btn.textContent=_muted?"🔇":"🔊";
+  });
+  document.body.appendChild(btn);
+}
+
+// Wire SFX to UI interactions
+function wireSFX(){
+  // Sidebar entries
+  document.getElementById("wiki-list").addEventListener("click", e => {
+    if(e.target.closest(".entry-hd")) sfxClick(780, 0.025, 0.035);
+    if(e.target.closest(".entry-more")) sfxOpen();
+    if(e.target.closest(".entry-edit-btn")) sfxOpen();
+  });
+  // Modal open/close
+  document.getElementById("modalX").addEventListener("click", sfxClose);
+  document.getElementById("modal").addEventListener("click", ev=>{ if(ev.target===document.getElementById("modal")) sfxClose(); });
+  // DB overlay
+  document.getElementById("btnDb").addEventListener("click", sfxOpen);
+  document.getElementById("dbClose").addEventListener("click", sfxClose);
+  // Editor overlay
+  document.getElementById("edCancel").addEventListener("click", sfxClose);
+  document.getElementById("edSave").addEventListener("click", ()=>sfxClick(1100,0.04,0.05));
+  document.getElementById("edDel").addEventListener("click", ()=>sfxClick(300,0.08,0.055));
+  document.getElementById("edAddField").addEventListener("click", ()=>sfxClick(880,0.03,0.03));
+  document.getElementById("btnAddEntry").addEventListener("click", sfxOpen);
+  // Tabs
+  document.getElementById("tabs").addEventListener("click", e=>{ if(e.target.closest(".tab")) sfxClick(660,0.02,0.03); });
+  // Node card wikilinks — delegated after render
+  document.getElementById("novel-scroll").addEventListener("click", e=>{ if(e.target.closest(".wl")) sfxOpen(); });
+  // Header buttons
+  document.getElementById("btnSm").addEventListener("click",()=>sfxClick(500,0.02,0.03));
+  document.getElementById("btnLg").addEventListener("click",()=>sfxClick(700,0.02,0.03));
+  document.querySelector(".hd-logo").addEventListener("click",()=>sfxClick(440,0.04,0.04));
+  // Right panel buttons
+  document.getElementById("nc-full-btn").addEventListener("click", sfxOpen);
+  document.getElementById("nc-edit-btn").addEventListener("click", sfxOpen);
+}
+
+// ═══════════════════════════════════════════════════════════
 //  INTRO SEQUENCE
 // ═══════════════════════════════════════════════════════════
 const CHARS="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/\\|.-_:><[]{}!@#";
@@ -872,6 +1057,14 @@ function runIntro() {
         stream=document.getElementById("iStream"),prog=document.getElementById("iProg"),fill=document.getElementById("iFill"),
         pct=document.getElementById("iPct"),msg=document.getElementById("iMsg"),granted=document.getElementById("iGranted");
   let streamInt,pctInt,msgInt;
+
+  // Queue audio — will fire on first interaction
+  _audioReady=true;
+  document.addEventListener("mousemove",triggerAudio,{once:true});
+  document.addEventListener("keydown",triggerAudio,{once:true});
+  document.addEventListener("touchstart",triggerAudio,{once:true});
+  primeAudio(); if(_ctx&&_ctx.state==="running"){ _audioTriggered=true; runIntroAudio(); }
+
   setTimeout(()=>logo.classList.add("on"),400);
   setTimeout(()=>{logo.classList.add("glitch");setTimeout(()=>logo.classList.remove("glitch"),600);},900);
   setTimeout(()=>{sub.classList.add("on");divl.classList.add("on");},1100);
@@ -900,6 +1093,8 @@ function showMain(){document.getElementById("intro").style.display="none";docume
 document.addEventListener("DOMContentLoaded",()=>{
   renderWiki();
   renderChapters();
+  injectMuteBtn();
+  wireSFX();
   if(sessionStorage.getItem("eden_session")){showMain();}else{runIntro();}
 });
 </script>
