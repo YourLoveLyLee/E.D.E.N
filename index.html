@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E·D·E·N — You Are Here</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;700&family=Crimson+Pro:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --bg:      #03050a;
+  --accent:  #00e5cc;
+  --danger:  #ff4444;
+  --text:    #b8ccd8;
+  --text-d:  #2a4050;
+  --mono:    'Share Tech Mono', monospace;
+  --ui:      'Rajdhani', sans-serif;
+  --novel:   'Crimson Pro', Georgia, serif;
+}
+
+html, body {
+  height:100%; background:var(--bg);
+  color:var(--text); font-family:var(--ui); overflow:hidden;
+}
+
+/* ── GRID BACKGROUND ─────────────────────────────── */
+.grid-bg {
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    linear-gradient(rgba(0,229,204,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,204,.025) 1px, transparent 1px);
+  background-size:52px 52px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* ── SCAN LINES ──────────────────────────────────── */
+.scanlines {
+  position:fixed; inset:0; pointer-events:none; z-index:1;
+  background: repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(0,0,0,.1) 3px,rgba(0,0,0,.1) 4px);
+  animation: scan 12s linear infinite;
+}
+@keyframes scan { from{background-position:0 0} to{background-position:0 200px} }
+
+/* ── RADIAL GLOW CENTER ──────────────────────────── */
+.glow-center {
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(0,229,204,.04) 0%, transparent 70%);
+}
+
+/* ── CORNER LABELS ───────────────────────────────── */
+.corner {
+  position:fixed; font-family:var(--mono); font-size:.52rem;
+  letter-spacing:.18em; color:var(--text-d); z-index:5; line-height:1.7;
+}
+.c-tl { top:22px; left:26px; }
+.c-tr { top:22px; right:26px; text-align:right; }
+.c-bl { bottom:22px; left:26px; }
+.c-br { bottom:22px; right:26px; text-align:right; }
+
+/* ── CORNER BRACKETS ─────────────────────────────── */
+.c-tl::before  { content:'┌'; position:absolute; top:-10px;  left:-10px;  color:var(--text-d); font-size:.7rem; }
+.c-tr::after   { content:'┐'; position:absolute; top:-10px;  right:-10px; color:var(--text-d); font-size:.7rem; }
+.c-bl::before  { content:'└'; position:absolute; bottom:-10px; left:-10px; color:var(--text-d); font-size:.7rem; }
+.c-br::after   { content:'┘'; position:absolute; bottom:-10px; right:-10px; color:var(--text-d); font-size:.7rem; }
+
+/* ── HERO ────────────────────────────────────────── */
+#hero {
+  position:fixed; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:0; z-index:10;
+  transition: opacity .5s ease, transform .5s ease;
+}
+body.out #hero { opacity:0; transform:scale(.97); }
+
+.h-pre {
+  font-family:var(--mono); font-size:.58rem; letter-spacing:.5em;
+  color:var(--text-d); text-transform:uppercase; margin-bottom:22px;
+  opacity:0; animation: up .8s ease .4s forwards;
+}
+
+.h-title {
+  font-family:var(--mono);
+  font-size:clamp(2.8rem,7vw,5.5rem);
+  letter-spacing:.38em; color:var(--accent);
+  text-shadow: 0 0 40px rgba(0,229,204,.55), 0 0 80px rgba(0,229,204,.22), 0 0 120px rgba(0,229,204,.08);
+  line-height:1; margin-bottom:6px;
+  opacity:0; animation: up .9s ease .7s forwards;
+}
+
+.h-sub {
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.28em;
+  color:var(--text-d); text-transform:uppercase; margin-bottom:44px;
+  opacity:0; animation: up .8s ease 1s forwards;
+}
+
+.h-rule {
+  width:1px; height:56px;
+  background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+  margin-bottom:44px;
+  opacity:0; animation: fadeI .6s ease 1.3s forwards;
+}
+
+.h-tagline {
+  font-family:var(--novel); font-size:clamp(.9rem,1.8vw,1.15rem);
+  font-style:italic; color:var(--text);
+  text-align:center; line-height:1.75; max-width:460px;
+  margin-bottom:46px;
+  opacity:0; animation: up .8s ease 1.5s forwards;
+}
+
+/* Enter button */
+.enter-wrap {
+  opacity:0; animation: up .8s ease 1.9s forwards;
+  position:relative;
+}
+
+.enter-btn {
+  position:relative; overflow:hidden;
+  background:transparent; border:1px solid var(--accent);
+  color:var(--accent); font-family:var(--mono); font-size:.68rem;
+  letter-spacing:.38em; padding:14px 44px;
+  cursor:pointer; text-decoration:none; display:inline-block;
+  transition: color .3s ease, box-shadow .3s ease;
+  text-transform:uppercase;
+}
+.enter-btn::before {
+  content:''; position:absolute; inset:0;
+  background:var(--accent); transform:scaleX(0);
+  transform-origin:left; transition:transform .35s ease; z-index:0;
+}
+.enter-btn span { position:relative; z-index:1; }
+.enter-btn:hover { color:#000; box-shadow:0 0 32px rgba(0,229,204,.35); }
+.enter-btn:hover::before { transform:scaleX(1); }
+
+/* corner decorations on button */
+.enter-btn::after {
+  content:'';
+  position:absolute; top:-1px; right:-1px; width:8px; height:8px;
+  border-top:1px solid var(--bg); border-right:1px solid var(--bg);
+  background:var(--bg);
+}
+
+/* ── STATUS TICKER ───────────────────────────────── */
+#ticker {
+  position:fixed; bottom:44px; left:50%; transform:translateX(-50%);
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.18em;
+  color:var(--text-d); white-space:nowrap; z-index:5;
+  opacity:0; animation: fadeI .6s ease 2.3s forwards;
+}
+
+.tick-dot {
+  display:inline-block; width:5px; height:5px; border-radius:50%;
+  background:var(--accent); margin-right:9px; vertical-align:middle;
+  animation: pulse 2.4s ease infinite;
+  box-shadow: 0 0 6px var(--accent);
+}
+@keyframes pulse {
+  0%,100%{ opacity:1; box-shadow:0 0 6px var(--accent); }
+  50%    { opacity:.3; box-shadow:none; }
+}
+
+/* ── ANIMATIONS ──────────────────────────────────── */
+@keyframes up   { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+@keyframes fadeI{ from{opacity:0} to{opacity:1} }
+
+/* ── PAGE FLASH OVERLAY ──────────────────────────── */
+#flash {
+  position:fixed; inset:0; background:var(--accent);
+  opacity:0; pointer-events:none; z-index:999;
+  transition: opacity .15s ease;
+}
+#flash.go { opacity:.06; }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="scanlines"></div>
+<div class="glow-center"></div>
+
+<div class="corner c-tl">E·D·E·N CORE<br>LORE DISPATCH v1.0</div>
+<div class="corner c-tr">STATUS: ONLINE<br>ARCHIVE: ACCESSIBLE</div>
+<div class="corner c-bl">CLASSIFIED — INTERNAL ACCESS ONLY</div>
+<div class="corner c-br">© EDEN COMMAND COUNCIL</div>
+
+<div id="hero">
+  <div class="h-pre">Emergency Defense &amp; Endurance Network</div>
+  <div class="h-title">E·D·E·N</div>
+  <div class="h-sub">Core Archive — Tactical Lore Dispatch Interface</div>
+  <div class="h-rule"></div>
+  <div class="h-tagline">The world fell.<br>The records remain.<br><em>What you find here is what survived.</em></div>
+  <div class="enter-wrap">
+    <a class="enter-btn" href="wiki.html" id="enterBtn"><span>▶ &nbsp; Enter Database</span></a>
+  </div>
+</div>
+
+<div id="ticker">
+  <span class="tick-dot"></span>
+  EDEN CORE ARCHIVE — ALL MANIFESTS ACCESSIBLE — CLEARANCE VERIFICATION BYPASSED
+</div>
+
+<div id="flash"></div>
+
+<script>
+document.getElementById("enterBtn").addEventListener("click", function(e){
+  e.preventDefault();
+  const flash = document.getElementById("flash");
+  flash.classList.add("go");
+  setTimeout(()=>{ document.body.classList.add("out"); },80);
+  setTimeout(()=>{ window.location.href = "wiki.html"; },560);
+});
+
+// Subtle title glimmer
+const title = document.querySelector(".h-title");
+setInterval(()=>{
+  title.style.textShadow = `0 0 ${38+Math.random()*8}px rgba(0,229,204,.55), 0 0 ${75+Math.random()*20}px rgba(0,229,204,.2)`;
+},2200);
+</script>
+</body>
+</html>
