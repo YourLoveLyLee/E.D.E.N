@@ -15,7 +15,7 @@
   --ns:1.05rem;--nlh:1.9;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--ui);overflow:hidden;}
-
+ 
 /* INTRO */
 #intro{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.9s ease;}
 #intro.out{opacity:0;pointer-events:none;}
@@ -42,11 +42,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 .i-granted{font-family:var(--mono);font-size:.72rem;letter-spacing:.4em;color:var(--accent);opacity:0;text-transform:uppercase;}
 .i-granted.flash{animation:grantedBlink .5s ease forwards;}
 @keyframes grantedBlink{0%{opacity:0;}30%{opacity:1;text-shadow:0 0 20px var(--accent);}100%{opacity:.8;}}
-
+ 
 /* APP GRID */
 #app{display:grid;grid-template-rows:48px 1fr;grid-template-columns:220px 1fr 280px;grid-template-areas:"hd hd hd""sb cn rp";height:100vh;opacity:0;transition:opacity .7s ease;}
 #app.on{opacity:1;}
-
+ 
 /* HEADER */
 #hd{grid-area:hd;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:0 16px;position:relative;z-index:50;}
 .hd-logo{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;color:var(--accent);text-shadow:0 0 14px rgba(0,229,204,.35);white-space:nowrap;line-height:1.2;text-decoration:none;cursor:pointer;}
@@ -59,7 +59,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 .hbtn{background:none;border:1px solid var(--border);color:var(--text-d);font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;padding:4px 10px;cursor:pointer;transition:all .2s;}
 .hbtn:hover{border-color:var(--accent-d);color:var(--accent);}
 .hbtn.hi{border-color:rgba(0,229,204,.35);color:var(--accent);background:rgba(0,229,204,.05);}
-
+ 
 /* SIDEBAR */
 #sb{grid-area:sb;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
 .sb-head{padding:10px 14px 9px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.52rem;letter-spacing:.28em;color:var(--text-d);text-transform:uppercase;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;}
@@ -86,7 +86,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 .entry-more:hover,.entry-edit-btn:hover{background:rgba(0,229,204,.1);box-shadow:0 0 14px rgba(0,229,204,.14);}
 .entry-edit-btn{color:var(--amber);border-color:rgba(255,160,64,.22);background:rgba(255,160,64,.05);}
 .entry-edit-btn:hover{background:rgba(255,160,64,.1);}
-
+ 
 /* NOVEL */
 #cn{grid-area:cn;display:flex;flex-direction:column;overflow:hidden;}
 #tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;gap:0;overflow-x:auto;flex-shrink:0;}
@@ -110,7 +110,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 .wl{color:var(--accent);cursor:pointer;border-bottom:1px solid rgba(0,229,204,.28);text-decoration:none;transition:all .2s;}
 .wl:hover{color:#fff;border-bottom-color:var(--accent);text-shadow:0 0 10px rgba(0,229,204,.4);}
 .ch-pending{font-family:var(--mono);font-size:.72rem;letter-spacing:.15em;color:var(--text-d);border:1px solid var(--border);padding:20px 24px;display:inline-block;margin-bottom:1em;}
-
+ 
 /* RIGHT PANEL */
 #rp{grid-area:rp;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
 .rp-head{padding:10px 14px 9px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.52rem;letter-spacing:.28em;color:var(--text-d);text-transform:uppercase;flex-shrink:0;}
@@ -131,7 +131,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 .nc-full-btn:hover{background:rgba(0,229,204,.1);}
 .nc-edit-btn{color:var(--amber);border-color:rgba(255,160,64,.22);background:rgba(255,160,64,.05);}
 .nc-edit-btn:hover{background:rgba(255,160,64,.1);}
-
+ 
 /* MANIFEST MODAL */
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:8000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(6px);}
 #modal.on{opacity:1;pointer-events:all;}
@@ -154,7 +154,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 .mn-sec{font-family:var(--mono);font-size:.55rem;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;margin:18px 0 10px;}
 .mn-body{font-family:var(--novel);font-size:.97rem;line-height:1.82;color:var(--text);}
 .mn-body p{margin-bottom:1em;}
-
+ 
 /* ── BACKSTORY PANEL ── */
 .bs-toggle-row{display:flex;align-items:center;justify-content:flex-end;margin-top:22px;}
 .bs-toggle{background:none;border:1px solid var(--border);color:var(--text-d);font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;padding:5px 12px;cursor:pointer;transition:all .22s;text-transform:uppercase;display:flex;align-items:center;gap:7px;user-select:none;}
@@ -176,7 +176,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 .bs-content p{margin-bottom:1em;}
 .bs-content blockquote{border-left:2px solid rgba(0,229,204,.3);padding:8px 16px;margin:10px 0;background:rgba(0,229,204,.02);font-style:italic;color:var(--text-b);}
 .bs-empty{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;color:var(--text-d);padding:22px 20px;text-align:center;}
-
+ 
 /* FULL DATABASE OVERLAY */
 #db-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:7000;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(4px);}
 #db-overlay.on{opacity:1;pointer-events:all;}
@@ -195,7 +195,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 .db-cn{font-family:var(--ui);font-size:1rem;font-weight:700;color:var(--text-b);margin-bottom:4px;}
 .db-cc{font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;color:var(--text-d);margin-bottom:10px;}
 .db-cd{font-family:var(--ui);font-size:.78rem;line-height:1.6;color:var(--text-d);}
-
+ 
 /* ═══ WIKI EDITOR OVERLAY ═══ */
 #editor-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(6px);}
 #editor-overlay.on{opacity:1;pointer-events:all;}
@@ -250,13 +250,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 /* Two-col layout in editor */
 .ed-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .ed-divider{height:1px;background:var(--border);margin:4px 0;}
-
+ 
 body.fup{--ns:1.15rem;}
 body.fdown{--ns:.93rem;}
 </style>
 </head>
 <body>
-
+ 
 <!-- INTRO -->
 <div id="intro">
   <div class="i-scanlines"></div>
@@ -273,7 +273,7 @@ body.fdown{--ns:.93rem;}
     <div class="i-granted" id="iGranted">[ ACCESS GRANTED ]</div>
   </div>
 </div>
-
+ 
 <!-- APP -->
 <div id="app">
   <header id="hd">
@@ -311,7 +311,7 @@ body.fdown{--ns:.93rem;}
     </div>
   </aside>
 </div>
-
+ 
 <!-- MANIFEST MODAL -->
 <div id="modal">
   <div class="modal-box">
@@ -322,7 +322,7 @@ body.fdown{--ns:.93rem;}
     <div class="modal-scroll" id="modal-body"></div>
   </div>
 </div>
-
+ 
 <!-- FULL DATABASE OVERLAY -->
 <div id="db-overlay">
   <div class="db-hd">
@@ -331,7 +331,7 @@ body.fdown{--ns:.93rem;}
   </div>
   <div class="db-grid" id="db-grid"></div>
 </div>
-
+ 
 <!-- WIKI EDITOR OVERLAY -->
 <div id="editor-overlay">
   <div class="editor-box">
@@ -386,23 +386,23 @@ body.fdown{--ns:.93rem;}
           </div>
         </div>
       </div>
-
+ 
       <div class="ed-divider"></div>
-
+ 
       <div class="ed-section">
         <div class="ed-label">Info Fields <span style="font-size:.48rem;color:var(--text-d);letter-spacing:.05em">(shown in sidebar card & manifest)</span></div>
         <div id="ed-fields-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px;"></div>
         <button class="ed-add-field" id="edAddField">+ Add Field Row</button>
       </div>
-
+ 
       <div class="ed-divider"></div>
-
+ 
       <div class="ed-section">
         <div class="ed-label">Backstory Segments <span style="font-size:.48rem;color:var(--text-d);letter-spacing:.05em">(numbered tabs in manifest — leave empty to hide panel)</span></div>
         <div id="ed-bs-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:8px;"></div>
         <button class="ed-add-field" id="edAddBs">+ Add Backstory Segment</button>
       </div>
-
+ 
       <div class="ed-divider"></div>
         <div class="ed-toolbar">
           <button class="et-btn" data-cmd="bold"><b>B</b></button>
@@ -417,13 +417,13 @@ body.fdown{--ns:.93rem;}
     </div>
   </div>
 </div>
-
+ 
 <script>
 // ═══════════════════════════════════════════════════════════
 //  LOCAL STORAGE KEY
 // ═══════════════════════════════════════════════════════════
 const STORAGE_KEY = "eden_wiki_v2";
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  DEFAULT DATA
 // ═══════════════════════════════════════════════════════════
@@ -555,7 +555,7 @@ const DEFAULT_WIKI = [
 <p>Solace's current whereabouts: classified. His last registered position was the southeast perimeter. No check-in has been logged since the anomaly report was filed.</p>`
   }
 ];
-
+ 
 const DEFAULT_CHAPTERS = [
   {
     id:"prologue",label:"Prologue",title:"Prologue — The Fall",
@@ -597,7 +597,7 @@ const DEFAULT_CHAPTERS = [
 <p>This section of the archive is pending Command Council review before public release.</p>`
   }
 ];
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  STATE (load from localStorage or use defaults)
 // ═══════════════════════════════════════════════════════════
@@ -611,11 +611,11 @@ function loadState() {
 function saveState() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
 }
-
+ 
 let state = loadState();
 let WIKI = state.wiki;
 const CHAPTERS = DEFAULT_CHAPTERS;
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  RENDER WIKI LIST
 // ═══════════════════════════════════════════════════════════
@@ -645,7 +645,7 @@ function toggleEntry(id) {
   document.querySelectorAll(".entry.open").forEach(e=>e.classList.remove("open"));
   if (!was) el.classList.add("open");
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  RENDER CHAPTERS
 // ═══════════════════════════════════════════════════════════
@@ -669,7 +669,7 @@ function switchCh(id) {
   document.getElementById("sec-"+id).classList.add("on");
   document.getElementById("novel-scroll").scrollTop=0;
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  RIGHT PANEL
 // ═══════════════════════════════════════════════════════════
@@ -691,7 +691,7 @@ function showNode(id) {
 }
 document.getElementById("nc-full-btn").addEventListener("click",()=>{if(activeNodeId)openManifest(activeNodeId);});
 document.getElementById("nc-edit-btn").addEventListener("click",()=>{if(activeNodeId)openEditor(activeNodeId);});
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  MANIFEST MODAL
 // ═══════════════════════════════════════════════════════════
@@ -703,7 +703,7 @@ function buildBackstoryPanel(e) {
       ${s.label ? `<div class="bs-label">// ${s.label}</div>` : ""}
       <div style="padding:${s.label?'8px':'14px'} 20px 20px">${s.text}</div>
     </div>`).join("") : `<div class="bs-empty">[ NO BACKSTORY DATA — CLEARANCE REQUIRED ]</div>`;
-
+ 
   return `
     <div class="bs-toggle-row">
       <button class="bs-toggle" id="bs-toggle-btn">
@@ -718,7 +718,7 @@ function buildBackstoryPanel(e) {
       </div>
     </div>`;
 }
-
+ 
 function openManifest(id) {
   const e = WIKI.find(w=>w.id===id);
   if (!e) return;
@@ -732,7 +732,7 @@ function openManifest(id) {
     <div class="mn-body">${e.full}</div>
     ${buildBackstoryPanel(e)}
   `;
-
+ 
   // wire backstory toggle
   const toggleBtn = document.getElementById("bs-toggle-btn");
   const panel     = document.getElementById("bs-panel");
@@ -742,7 +742,7 @@ function openManifest(id) {
     toggleBtn.classList.toggle("open", !isOpen);
     if(!isOpen) sfxOpen(); else sfxClose();
   });
-
+ 
   // wire backstory tabs
   const tabsEl = document.getElementById("bs-tabs");
   if (tabsEl) {
@@ -757,13 +757,13 @@ function openManifest(id) {
       sfxClick(720, 0.022, 0.03);
     });
   }
-
+ 
   document.getElementById("modal").classList.add("on");
   showNode(id);
 }
 document.getElementById("modalX").addEventListener("click",()=>document.getElementById("modal").classList.remove("on"));
 document.getElementById("modal").addEventListener("click",ev=>{if(ev.target===document.getElementById("modal"))document.getElementById("modal").classList.remove("on");});
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  FULL DATABASE
 // ═══════════════════════════════════════════════════════════
@@ -779,26 +779,26 @@ function renderDB() {
 }
 document.getElementById("btnDb").addEventListener("click",()=>{renderDB();document.getElementById("db-overlay").classList.add("on");});
 document.getElementById("dbClose").addEventListener("click",()=>document.getElementById("db-overlay").classList.remove("on"));
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  WIKI EDITOR
 // ═══════════════════════════════════════════════════════════
 let editingId = null;
 let editorImgData = "";
-
+ 
 function openEditor(id) {
   const isNew = !id;
   editingId = id || null;
   document.getElementById("editor-mode-label").textContent = isNew ? "New Manifest" : "Edit Manifest";
   document.getElementById("edDel").style.display = isNew ? "none" : "";
-
+ 
   const e = id ? WIKI.find(w=>w.id===id) : null;
   document.getElementById("ed-name").value   = e ? e.name  : "";
   document.getElementById("ed-cls").value    = e ? e.cls   : "";
   document.getElementById("ed-aff").value    = e ? e.aff   : "";
   document.getElementById("ed-brief").value  = e ? e.brief : "";
   document.getElementById("ed-tag").value    = e ? e.tag   : "active";
-
+ 
   // Image
   editorImgData = e ? (e.img || "") : "";
   const prev = document.getElementById("ed-img-preview");
@@ -811,16 +811,16 @@ function openEditor(id) {
     document.querySelector(".ed-img-hint").style.display="";
   }
   document.getElementById("ed-img-file").value="";
-
+ 
   // Fields
   renderEditorFields(e ? e.fields : [{l:"",v:""}]);
-
+ 
   // Full body
   document.getElementById("ed-full").innerHTML = e ? e.full : "<p></p>";
-
+ 
   document.getElementById("editor-overlay").classList.add("on");
 }
-
+ 
 function renderEditorFields(fields) {
   document.getElementById("ed-fields-list").innerHTML = fields.map((f,i)=>`
     <div class="ed-field-row" id="edr-${i}">
@@ -830,18 +830,18 @@ function renderEditorFields(fields) {
     </div>
   `).join("");
 }
-
+ 
 let edFields = [];
 function loadEdFields(fields) { edFields = fields.map(f=>({...f})); renderEditorFields(edFields); }
 function updateFieldLabel(i,v){ edFields[i].l=v; }
 function updateFieldValue(i,v){ edFields[i].v=v; }
 function removeField(i){ edFields.splice(i,1); renderEditorFields(edFields); }
-
+ 
 document.getElementById("edAddField").addEventListener("click",()=>{
   edFields.push({l:"",v:""});
   renderEditorFields(edFields);
 });
-
+ 
 // Backstory segments editor
 let edBs = [];
 function renderEditorBs(segs) {
@@ -862,7 +862,7 @@ document.getElementById("edAddBs").addEventListener("click",()=>{
   renderEditorBs(edBs);
   sfxClick(880,0.03,0.03);
 });
-
+ 
 // Patch openEditor to also load backstory
 const origOpenEditor = openEditor;
 window.openEditor = function(id) {
@@ -873,7 +873,7 @@ window.openEditor = function(id) {
   edBs = e && e.backstory ? e.backstory.map(s=>({...s})) : [];
   renderEditorBs(edBs);
 };
-
+ 
 // Image upload
 document.getElementById("ed-img-file").addEventListener("change",function(){
   const file = this.files[0];
@@ -897,7 +897,7 @@ document.getElementById("ed-img-clear").addEventListener("click",ev=>{
   document.querySelector(".ed-img-hint").style.display="";
   document.getElementById("ed-img-file").value="";
 });
-
+ 
 // Toolbar
 document.querySelectorAll(".et-btn[data-cmd]").forEach(btn=>{
   btn.addEventListener("click",()=>{ document.getElementById("ed-full").focus(); document.execCommand(btn.dataset.cmd,false,null); });
@@ -910,7 +910,7 @@ document.getElementById("etQuote").addEventListener("click",()=>{
 document.getElementById("etClear").addEventListener("click",()=>{
   if (confirm("Clear all body content?")) document.getElementById("ed-full").innerHTML="<p></p>";
 });
-
+ 
 // Save
 document.getElementById("edSave").addEventListener("click",()=>{
   const name = document.getElementById("ed-name").value.trim();
@@ -918,19 +918,19 @@ document.getElementById("edSave").addEventListener("click",()=>{
   const tagVal = document.getElementById("ed-tag").value;
   const tagLabels = {active:"ACTIVE",threat:"THREAT",loc:"LOCATION"};
   const id = editingId || name.toLowerCase().replace(/[^a-z0-9]/g,"_")+"_"+Date.now();
-
+ 
   // collect fields from DOM (in case user typed without triggering input)
   const domFields = [...document.querySelectorAll(".ed-field-row")].map(row=>{
     const inputs = row.querySelectorAll("input");
     return {l:inputs[0].value.trim(),v:inputs[1].value.trim()};
   }).filter(f=>f.l||f.v);
-
+ 
   const domBs = [...document.querySelectorAll("[id^='ebs-']")].map(row=>{
     const inp = row.querySelector("input");
     const ta  = row.querySelector("textarea");
     return {label:(inp?inp.value.trim():""), text:(ta?ta.value.trim():"")};
   }).filter(s=>s.text);
-
+ 
   const entry = {
     id, name,
     tag:tagVal, tagLabel:tagLabels[tagVal],
@@ -942,7 +942,7 @@ document.getElementById("edSave").addEventListener("click",()=>{
     full:document.getElementById("ed-full").innerHTML,
     backstory:domBs
   };
-
+ 
   if (editingId) {
     const idx = WIKI.findIndex(w=>w.id===editingId);
     if (idx>=0) WIKI[idx] = entry;
@@ -955,7 +955,7 @@ document.getElementById("edSave").addEventListener("click",()=>{
   document.getElementById("editor-overlay").classList.remove("on");
   if (activeNodeId===editingId) showNode(id);
 });
-
+ 
 // Delete
 document.getElementById("edDel").addEventListener("click",()=>{
   if (!editingId) return;
@@ -969,13 +969,13 @@ document.getElementById("edDel").addEventListener("click",()=>{
   document.getElementById("node-card").classList.remove("on");
   activeNodeId=null;
 });
-
+ 
 // Cancel
 document.getElementById("edCancel").addEventListener("click",()=>document.getElementById("editor-overlay").classList.remove("on"));
-
+ 
 // Add new entry
 document.getElementById("btnAddEntry").addEventListener("click",()=>openEditor(null));
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  SEARCH + FONT SIZE
 // ═══════════════════════════════════════════════════════════
@@ -983,9 +983,9 @@ document.getElementById("searchbar").addEventListener("input",e=>renderWiki(e.ta
 let fState=0;
 document.getElementById("btnLg").addEventListener("click",()=>{fState=Math.min(1,fState+1);document.body.classList.remove("fup","fdown");if(fState===1)document.body.classList.add("fup");});
 document.getElementById("btnSm").addEventListener("click",()=>{fState=Math.max(-1,fState-1);document.body.classList.remove("fup","fdown");if(fState===-1)document.body.classList.add("fdown");});
-
+ 
 function goHome() { window.location.href="index.html"; }
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  AUDIO ENGINE
 // ═══════════════════════════════════════════════════════════
@@ -993,7 +993,7 @@ let _ctx=null, _master=null, _muted=false, _audioReady=false;
 function aC(){ if(!_ctx) _ctx=new(window.AudioContext||window.webkitAudioContext)(); return _ctx; }
 function aM(){ const c=aC(); if(!_master){_master=c.createGain();_master.gain.value=_muted?0:1;_master.connect(c.destination);} return _master; }
 function toM(n){ n.connect(aM()); }
-
+ 
 // Muted short click — UI interactions
 function sfxClick(freq=900, dur=0.03, vol=0.04){
   if(_muted)return; const c=aC(),t=c.currentTime;
@@ -1002,7 +1002,7 @@ function sfxClick(freq=900, dur=0.03, vol=0.04){
   g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(0.001,t+dur);
   o.connect(g); toM(g); o.start(t); o.stop(t+dur+0.01);
 }
-
+ 
 // Soft open — modal/panel appear
 function sfxOpen(){
   if(_muted)return; const c=aC(),t=c.currentTime;
@@ -1012,7 +1012,7 @@ function sfxOpen(){
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.05,t+0.04); g.gain.exponentialRampToValueAtTime(0.001,t+0.22);
   o.connect(f); f.connect(g); toM(g); o.start(t); o.stop(t+0.25);
 }
-
+ 
 // Soft close
 function sfxClose(){
   if(_muted)return; const c=aC(),t=c.currentTime;
@@ -1021,7 +1021,7 @@ function sfxClose(){
   g.gain.setValueAtTime(0.045,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.16);
   o.connect(g); toM(g); o.start(t); o.stop(t+0.18);
 }
-
+ 
 // Intro: boot hum
 function sfxBootHum(){
   const c=aC(),t=c.currentTime;
@@ -1033,7 +1033,7 @@ function sfxBootHum(){
   o1.connect(f); o2.connect(f); f.connect(g); toM(g);
   o1.start(t); o2.start(t); o1.stop(t+7); o2.stop(t+7);
 }
-
+ 
 // Intro: power-up sweep
 function sfxPowerUp(delay=0){
   const c=aC(),t=c.currentTime+delay;
@@ -1043,7 +1043,7 @@ function sfxPowerUp(delay=0){
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.08,t+0.15); g.gain.linearRampToValueAtTime(0,t+1.1);
   o.connect(f); f.connect(g); toM(g); o.start(t); o.stop(t+1.2);
 }
-
+ 
 // Intro: glitch burst
 function sfxGlitch(delay=0){
   const c=aC(),t=c.currentTime+delay;
@@ -1060,12 +1060,12 @@ function sfxGlitch(delay=0){
   ng.gain.setValueAtTime(0.1,t); ng.gain.linearRampToValueAtTime(0,t+0.35);
   src.connect(nf); nf.connect(ng); toM(ng); src.start(t);
 }
-
+ 
 // Intro: data ticks
 let _tickInt=null;
 function sfxStartTicks(){ _tickInt=setInterval(()=>{if(_muted)return; const c=aC(),t=c.currentTime,o=c.createOscillator(),g=c.createGain(); o.type='square'; o.frequency.value=700+Math.random()*1400; g.gain.setValueAtTime(0.016,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.022); o.connect(g); toM(g); o.start(t); o.stop(t+0.03); },75); }
 function sfxStopTicks(){ if(_tickInt){clearInterval(_tickInt);_tickInt=null;} }
-
+ 
 // Intro: access granted chord
 function sfxGranted(delay=0){
   const c=aC(),t=c.currentTime+delay;
@@ -1082,7 +1082,7 @@ function sfxGranted(delay=0){
   sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(0.035,t+0.05); sg.gain.exponentialRampToValueAtTime(0.001,t+0.55);
   s.connect(sg); toM(sg); s.start(t); s.stop(t+0.6);
 }
-
+ 
 // Ambient low pad
 function sfxAmbient(delay=0){
   const c=aC(),t=c.currentTime+delay;
@@ -1095,7 +1095,7 @@ function sfxAmbient(delay=0){
   o1.connect(f); o2.connect(f); f.connect(g); toM(g);
   o1.start(t); o2.start(t); lfo.start(t);
 }
-
+ 
 // Run intro audio sequence
 function runIntroAudio(){
   sfxBootHum();
@@ -1106,7 +1106,7 @@ function runIntroAudio(){
   sfxGranted(4.9);
   sfxAmbient(2.2);
 }
-
+ 
 // Trigger audio on first interaction (browser autoplay policy)
 let _audioTriggered=false;
 function triggerAudio(){
@@ -1120,7 +1120,7 @@ function triggerAudio(){
 function primeAudio(){
   try{ aC(); if(_ctx.state==="running"){ _audioReady=true; } }catch(e){}
 }
-
+ 
 // Mute button injection
 function injectMuteBtn(){
   const btn=document.createElement("button");
@@ -1137,7 +1137,7 @@ function injectMuteBtn(){
   });
   document.body.appendChild(btn);
 }
-
+ 
 // Wire SFX to UI interactions
 function wireSFX(){
   // Sidebar entries
@@ -1170,27 +1170,27 @@ function wireSFX(){
   document.getElementById("nc-full-btn").addEventListener("click", sfxOpen);
   document.getElementById("nc-edit-btn").addEventListener("click", sfxOpen);
 }
-
+ 
 // ═══════════════════════════════════════════════════════════
 //  INTRO SEQUENCE
 // ═══════════════════════════════════════════════════════════
 const CHARS="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/\\|.-_:><[]{}!@#";
 function randStr(n=44){return Array.from({length:n},()=>CHARS[Math.floor(Math.random()*CHARS.length)]).join("");}
 const MSGS=["DECRYPTING MANIFEST KEYS","LOADING TELEMETRY FILES","VERIFYING OPERATOR IDs","UNLOCKING ARCHIVE ACCESS","SYNCING NODE DATABASE"];
-
+ 
 function runIntro() {
   const logo=document.getElementById("iLogo"),sub=document.getElementById("iSub"),divl=document.getElementById("iDiv"),
         stream=document.getElementById("iStream"),prog=document.getElementById("iProg"),fill=document.getElementById("iFill"),
         pct=document.getElementById("iPct"),msg=document.getElementById("iMsg"),granted=document.getElementById("iGranted");
   let streamInt,pctInt,msgInt;
-
+ 
   // Queue audio — will fire on first interaction
   _audioReady=true;
   document.addEventListener("mousemove",triggerAudio,{once:true});
   document.addEventListener("keydown",triggerAudio,{once:true});
   document.addEventListener("touchstart",triggerAudio,{once:true});
   primeAudio(); if(_ctx&&_ctx.state==="running"){ _audioTriggered=true; runIntroAudio(); }
-
+ 
   setTimeout(()=>logo.classList.add("on"),400);
   setTimeout(()=>{logo.classList.add("glitch");setTimeout(()=>logo.classList.remove("glitch"),600);},900);
   setTimeout(()=>{sub.classList.add("on");divl.classList.add("on");},1100);
@@ -1215,7 +1215,7 @@ function runIntro() {
   },5500);
 }
 function showMain(){document.getElementById("intro").style.display="none";document.getElementById("app").classList.add("on");}
-
+ 
 document.addEventListener("DOMContentLoaded",()=>{
   renderWiki();
   renderChapters();
