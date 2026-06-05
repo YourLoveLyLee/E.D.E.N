@@ -155,6 +155,28 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--u
 .mn-body{font-family:var(--novel);font-size:.97rem;line-height:1.82;color:var(--text);}
 .mn-body p{margin-bottom:1em;}
 
+/* ── BACKSTORY PANEL ── */
+.bs-toggle-row{display:flex;align-items:center;justify-content:flex-end;margin-top:22px;}
+.bs-toggle{background:none;border:1px solid var(--border);color:var(--text-d);font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;padding:5px 12px;cursor:pointer;transition:all .22s;text-transform:uppercase;display:flex;align-items:center;gap:7px;user-select:none;}
+.bs-toggle:hover{border-color:rgba(0,229,204,.3);color:var(--accent);}
+.bs-toggle.open{border-color:rgba(0,229,204,.35);color:var(--accent);background:rgba(0,229,204,.04);}
+.bs-toggle-arrow{display:inline-block;transition:transform .25s;font-style:normal;font-size:.55rem;}
+.bs-toggle.open .bs-toggle-arrow{transform:rotate(90deg);}
+.bs-panel{overflow:hidden;max-height:0;transition:max-height .4s cubic-bezier(.25,.8,.25,1),opacity .3s ease;opacity:0;}
+.bs-panel.open{max-height:800px;opacity:1;}
+.bs-inner{border:1px solid var(--border);border-top:2px solid rgba(0,229,204,.2);margin-top:12px;background:rgba(7,9,12,.6);}
+.bs-tabs{display:flex;border-bottom:1px solid var(--border);}
+.bs-tab{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;padding:9px 16px;cursor:pointer;color:var(--text-d);border-right:1px solid var(--border);border-bottom:2px solid transparent;transition:all .18s;user-select:none;min-width:38px;text-align:center;}
+.bs-tab:hover{color:var(--text);background:rgba(0,229,204,.03);}
+.bs-tab.on{color:var(--accent);border-bottom-color:var(--accent);background:rgba(0,229,204,.04);}
+.bs-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.2em;color:var(--text-d);padding:12px 18px 0;text-transform:uppercase;}
+.bs-content{padding:14px 20px 20px;font-family:var(--novel);font-size:.94rem;line-height:1.85;color:var(--text);display:none;}
+.bs-content.on{display:block;animation:bsFadeIn .25s ease;}
+@keyframes bsFadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.bs-content p{margin-bottom:1em;}
+.bs-content blockquote{border-left:2px solid rgba(0,229,204,.3);padding:8px 16px;margin:10px 0;background:rgba(0,229,204,.02);font-style:italic;color:var(--text-b);}
+.bs-empty{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;color:var(--text-d);padding:22px 20px;text-align:center;}
+
 /* FULL DATABASE OVERLAY */
 #db-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:7000;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(4px);}
 #db-overlay.on{opacity:1;pointer-events:all;}
@@ -376,7 +398,12 @@ body.fdown{--ns:.93rem;}
       <div class="ed-divider"></div>
 
       <div class="ed-section">
-        <div class="ed-label">Full Manifest Body <span style="font-size:.48rem;color:var(--text-d)">(rich text)</span></div>
+        <div class="ed-label">Backstory Segments <span style="font-size:.48rem;color:var(--text-d);letter-spacing:.05em">(numbered tabs in manifest — leave empty to hide panel)</span></div>
+        <div id="ed-bs-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:8px;"></div>
+        <button class="ed-add-field" id="edAddBs">+ Add Backstory Segment</button>
+      </div>
+
+      <div class="ed-divider"></div>
         <div class="ed-toolbar">
           <button class="et-btn" data-cmd="bold"><b>B</b></button>
           <button class="et-btn" data-cmd="italic"><i>I</i></button>
@@ -415,7 +442,25 @@ const DEFAULT_WIKI = [
     full:`<p>Arcana is a Tier-1 Operator currently assigned to active deep-zone reconnaissance under direct DSSPD command. Her tactical dossier is one of the most restricted in the EDEN CORE system — portions sealed by Command Council, accessible only at Clearance Level 5.</p>
 <p>First documented during the Breach Campaigns, Arcana distinguished herself through high-attrition engagements where she operated without extraction support for extended periods. Her psychological profile describes exceptional situational compartmentalization — continuing mission execution under extreme duress without cognitive degradation.</p>
 <p>Her robotic frame is one of the few permitted inside the civilian wing of the Stronghold. The exact nature and origin of her cybernetic form remains classified. What is documented: she was not always this way.</p>
-<p>Her connection to the events of the Prologue period remains a subject of internal inquiry. Several classified intercepts suggest she was present during the fall of the outer defense perimeter. Formally unconfirmed.</p>`
+<p>Her connection to the events of the Prologue period remains a subject of internal inquiry. Several classified intercepts suggest she was present during the fall of the outer defense perimeter. Formally unconfirmed.</p>`,
+    backstory:[
+      {
+        label:"Before the Breach",
+        text:`<p>Before the world ended, she had a name that wasn't Arcana. The records from that period have been systematically removed — not redacted, not sealed, but deleted. The kind of deletion that requires Council-level authorization and leaves no trace in the system logs.</p>
+<p>What little remains describes a person embedded in pre-Breach military intelligence. Decorated. Trusted. Someone who knew where the defense lines were weak before anyone in command would admit it.</p>`
+      },
+      {
+        label:"The Conversion",
+        text:`<p>The cybernetic frame is not standard DSSPD issue. No requisition order exists. No surgical record. No intake form from any Stronghold medical division. The body she occupies now appeared — along with the operator using it — approximately six months after the Breach, without explanation.</p>
+<p>Internal DSSPD records from that period were reviewed once, by a single analyst. That analyst filed one report. The report was classified within the hour. The analyst was transferred to an undisclosed post in the lower sectors and has not appeared in any personnel log since.</p>`
+      },
+      {
+        label:"Current Assessment",
+        text:`<p>Arcana operates with a level of autonomy that should not be possible within DSSPD's command structure. Field requests are approved without the standard review cycle. She moves between clearance zones that are theoretically inaccessible to her rank.</p>
+<p>The Command Council is aware. Whatever arrangement exists between them and the operator designated Arcana, it is not documented anywhere the database can reach.</p>
+<p>This entry will not be updated without Council authorization.</p>`
+      }
+    ]
   },
   {
     id:"jamie",name:"Jamie",tag:"active",tagLabel:"ACTIVE",
@@ -650,6 +695,30 @@ document.getElementById("nc-edit-btn").addEventListener("click",()=>{if(activeNo
 // ═══════════════════════════════════════════════════════════
 //  MANIFEST MODAL
 // ═══════════════════════════════════════════════════════════
+function buildBackstoryPanel(e) {
+  const segs = e.backstory && e.backstory.length ? e.backstory : null;
+  const tabsHtml = segs ? segs.map((s,i)=>`<div class="bs-tab${i===0?' on':''}" data-bsi="${i}">${i+1}</div>`).join("") : "";
+  const contentsHtml = segs ? segs.map((s,i)=>`
+    <div class="bs-content${i===0?' on':''}" data-bsc="${i}">
+      ${s.label ? `<div class="bs-label">// ${s.label}</div>` : ""}
+      <div style="padding:${s.label?'8px':'14px'} 20px 20px">${s.text}</div>
+    </div>`).join("") : `<div class="bs-empty">[ NO BACKSTORY DATA — CLEARANCE REQUIRED ]</div>`;
+
+  return `
+    <div class="bs-toggle-row">
+      <button class="bs-toggle" id="bs-toggle-btn">
+        <span>Backstory Archive</span>
+        <i class="bs-toggle-arrow">▶</i>
+      </button>
+    </div>
+    <div class="bs-panel" id="bs-panel">
+      <div class="bs-inner">
+        ${segs ? `<div class="bs-tabs" id="bs-tabs">${tabsHtml}</div>` : ""}
+        <div id="bs-contents">${contentsHtml}</div>
+      </div>
+    </div>`;
+}
+
 function openManifest(id) {
   const e = WIKI.find(w=>w.id===id);
   if (!e) return;
@@ -661,7 +730,34 @@ function openManifest(id) {
     <div class="mn-grid">${e.fields.map(f=>`<div class="mn-fl"><div class="mn-fl-label">${f.l}</div><div class="mn-fl-val">${f.v}</div></div>`).join("")}</div>
     <div class="mn-sec">// Intelligence Summary</div>
     <div class="mn-body">${e.full}</div>
+    ${buildBackstoryPanel(e)}
   `;
+
+  // wire backstory toggle
+  const toggleBtn = document.getElementById("bs-toggle-btn");
+  const panel     = document.getElementById("bs-panel");
+  toggleBtn.addEventListener("click", () => {
+    const isOpen = panel.classList.contains("open");
+    panel.classList.toggle("open", !isOpen);
+    toggleBtn.classList.toggle("open", !isOpen);
+    if(!isOpen) sfxOpen(); else sfxClose();
+  });
+
+  // wire backstory tabs
+  const tabsEl = document.getElementById("bs-tabs");
+  if (tabsEl) {
+    tabsEl.addEventListener("click", ev => {
+      const tab = ev.target.closest(".bs-tab");
+      if (!tab) return;
+      const i = +tab.dataset.bsi;
+      tabsEl.querySelectorAll(".bs-tab").forEach(t=>t.classList.remove("on"));
+      document.querySelectorAll("[data-bsc]").forEach(c=>c.classList.remove("on"));
+      tab.classList.add("on");
+      document.querySelector(`[data-bsc="${i}"]`).classList.add("on");
+      sfxClick(720, 0.022, 0.03);
+    });
+  }
+
   document.getElementById("modal").classList.add("on");
   showNode(id);
 }
@@ -746,13 +842,36 @@ document.getElementById("edAddField").addEventListener("click",()=>{
   renderEditorFields(edFields);
 });
 
-// Sync edFields on open
+// Backstory segments editor
+let edBs = [];
+function renderEditorBs(segs) {
+  document.getElementById("ed-bs-list").innerHTML = segs.map((s,i)=>`
+    <div style="border:1px solid var(--border);padding:10px 12px;display:flex;flex-direction:column;gap:7px;" id="ebs-${i}">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-family:var(--mono);font-size:.52rem;color:var(--text-d);letter-spacing:.14em;">SEGMENT ${i+1}</span>
+        <input class="ed-input" style="flex:1;font-size:.78rem;" placeholder="Segment label (e.g. Before the Breach)" value="${s.label||''}" oninput="edBs[${i}].label=this.value">
+        <button class="ed-field-del" onclick="removeBs(${i})">✕</button>
+      </div>
+      <textarea class="ed-textarea" style="min-height:90px;" placeholder="Segment text (HTML supported: &lt;p&gt;, &lt;blockquote&gt;...)" oninput="edBs[${i}].text=this.value">${s.text||''}</textarea>
+    </div>
+  `).join("");
+}
+function removeBs(i){ edBs.splice(i,1); renderEditorBs(edBs); }
+document.getElementById("edAddBs").addEventListener("click",()=>{
+  edBs.push({label:"",text:""});
+  renderEditorBs(edBs);
+  sfxClick(880,0.03,0.03);
+});
+
+// Patch openEditor to also load backstory
 const origOpenEditor = openEditor;
 window.openEditor = function(id) {
   origOpenEditor(id);
   const e = id ? WIKI.find(w=>w.id===id) : null;
   edFields = e ? e.fields.map(f=>({...f})) : [{l:"",v:""}];
   renderEditorFields(edFields);
+  edBs = e && e.backstory ? e.backstory.map(s=>({...s})) : [];
+  renderEditorBs(edBs);
 };
 
 // Image upload
@@ -806,6 +925,12 @@ document.getElementById("edSave").addEventListener("click",()=>{
     return {l:inputs[0].value.trim(),v:inputs[1].value.trim()};
   }).filter(f=>f.l||f.v);
 
+  const domBs = [...document.querySelectorAll("[id^='ebs-']")].map(row=>{
+    const inp = row.querySelector("input");
+    const ta  = row.querySelector("textarea");
+    return {label:(inp?inp.value.trim():""), text:(ta?ta.value.trim():"")};
+  }).filter(s=>s.text);
+
   const entry = {
     id, name,
     tag:tagVal, tagLabel:tagLabels[tagVal],
@@ -814,7 +939,8 @@ document.getElementById("edSave").addEventListener("click",()=>{
     img:editorImgData,
     brief:document.getElementById("ed-brief").value.trim(),
     fields:domFields,
-    full:document.getElementById("ed-full").innerHTML
+    full:document.getElementById("ed-full").innerHTML,
+    backstory:domBs
   };
 
   if (editingId) {
