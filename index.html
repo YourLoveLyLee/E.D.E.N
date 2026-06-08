@@ -410,5 +410,41 @@ setInterval(() => {
   title.style.textShadow = `0 0 ${38 + Math.random()*8}px rgba(0,229,204,.55), 0 0 ${75+Math.random()*20}px rgba(0,229,204,.2)`;
 }, 2200);
 </script>
+  <!--
+  ╔══════════════════════════════════════════════╗
+  ║  SECRET BUTTON — paste anywhere in index.html ║
+  ║  before the closing </body> tag               ║
+  ╚══════════════════════════════════════════════╝
+-->
+
+<!-- SECRET BUTTON: tiny rose icon, barely visible in the bottom-right corner -->
+<!-- Only people who know it's there will find it -->
+
+<style>
+  .secret-btn {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: rgba(232, 84, 122, 0.12);   /* nearly invisible */
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+    z-index: 999;
+    user-select: none;
+    letter-spacing: 0;
+  }
+  .secret-btn:hover {
+    color: rgba(232, 84, 122, 0.75);
+    text-shadow: 0 0 10px rgba(232, 84, 122, 0.5);
+  }
+</style>
+
+<a class="secret-btn" href="./NiccsBrooke.html" title="">✦</a>
 </body>
 </html>
