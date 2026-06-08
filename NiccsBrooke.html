@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NB-21 — Niccs Brooke // E.D.E.N. Operative File</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose: #e8547a;
+      --rose-dim: #e8547a55;
+      --rose-faint: #e8547a18;
+      --bg: #07070d;
+      --bg-card: #0f0f1a;
+      --bg-deep: #0c0c17;
+      --text: #c9c9d4;
+      --text-bright: #f0f0f8;
+      --text-muted: #888899;
+      --text-body: #b0b0c4;
+    }
+
+    @keyframes scanline {
+      0%   { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    @keyframes flicker {
+      0%,100% { opacity:1; } 92%{opacity:1;} 93%{opacity:.4;} 94%{opacity:1;} 96%{opacity:.6;} 97%{opacity:1;}
+    }
+    @keyframes pulse-border {
+      0%,100% { box-shadow: 0 0 0px var(--rose-dim); }
+      50%      { box-shadow: 0 0 18px #e8547a44, inset 0 0 10px var(--rose-faint); }
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(12px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes drawLine {
+      from { width:0; }
+      to   { width:100%; }
+    }
+    @keyframes blink {
+      0%,100%{opacity:1;} 50%{opacity:0;}
+    }
+    @keyframes stampIn {
+      0%   { opacity:0; transform:scale(1.4) rotate(-8deg); }
+      60%  { opacity:1; transform:scale(.95) rotate(-8deg); }
+      100% { opacity:1; transform:scale(1) rotate(-8deg); }
+    }
+    @keyframes fillBar {
+      from { width: 0; }
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', 'Courier New', monospace;
+      min-height: 100vh;
+      padding: 36px 20px 60px;
+      position: relative;
+      overflow-x: hidden;
+      animation: flicker 9s infinite;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top:0; left:0; right:0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--rose), transparent);
+      animation: drawLine 1.2s ease forwards;
+      z-index: 100;
+    }
+
+    .scanline {
+      position: fixed;
+      top:0; left:0; right:0;
+      height: 60px;
+      background: linear-gradient(transparent, rgba(232,84,122,.035), transparent);
+      animation: scanline 7s linear infinite;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--rose-dim);
+      text-decoration: none;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--rose); }
+    .back-link::before { content: '← '; }
+
+    /* ── HEADER ── */
+    .header {
+      border-left: 3px solid var(--rose);
+      padding-left: 18px;
+      margin-bottom: 36px;
+      position: relative;
+      animation: fadeUp .6s ease both;
+    }
+    .header-meta {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: #e8547a99;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .header-name {
+      font-family: 'Barlow Condensed', Impact, sans-serif;
+      font-size: clamp(44px, 10vw, 72px);
+      font-weight: 700;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--text-bright);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .header-name span { color: var(--rose); }
+    .header-sub {
+      font-size: 11px;
+      letter-spacing: 5px;
+      color: #e8547a88;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+    .stamp {
+      position: absolute;
+      top: 0; right: 0;
+      border: 3px solid var(--rose-dim);
+      color: var(--rose-dim);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      padding: 6px 14px;
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      animation: stampIn .8s .9s both;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--rose-dim), #e8547a22, transparent);
+      margin: 28px 0;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      margin-bottom: 28px;
+      animation: fadeUp .5s ease both;
+    }
+    .section-label {
+      font-size: 9px;
+      letter-spacing: 5px;
+      color: var(--rose);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, #e8547a33, transparent);
+    }
+
+    /* ── ID GRID ── */
+    .id-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .id-field {
+      background: var(--bg-card);
+      border: 1px solid var(--rose-faint);
+      padding: 10px 14px;
+      animation: pulse-border 4s infinite;
+    }
+    .id-key {
+      font-size: 8px;
+      letter-spacing: 3px;
+      color: #e8547a77;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .id-val        { font-size: 13px; color: var(--text-bright); letter-spacing: 1px; }
+    .id-val.pink   { color: var(--rose); }
+    .id-val.dim    { color: var(--text-muted); font-size: 11px; }
+
+    /* ── ALIASES ── */
+    .alias-group   { margin-bottom: 14px; }
+    .alias-tier    { font-size: 8px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+    .alias-tags    { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag           { font-size: 10px; letter-spacing: 2px; padding: 4px 10px; border: 1px solid; text-transform: uppercase; transition: filter .2s; cursor: default; }
+    .tag:hover     { filter: brightness(1.3); }
+    .tag.rose      { border-color: var(--rose-dim); color: var(--rose); background: #e8547a0a; }
+    .tag.slate     { border-color: #4a5568; color: #9aa5b4; background: #1a1a2a; }
+
+    /* ── BODY TEXT ── */
+    .body-text     { font-size: 13px; line-height: 1.95; color: var(--text-body); letter-spacing: .3px; }
+    .body-text + .body-text { margin-top: 12px; }
+    .hl            { color: var(--text-bright); }
+    .ac            { color: var(--rose); }
+
+    /* ── EQUIPMENT ── */
+    .equip-item    { background: var(--bg-deep); border-left: 2px solid var(--rose); padding: 14px 16px; margin-bottom: 10px; }
+    .equip-name    { font-size: 11px; letter-spacing: 3px; color: #e8547acc; text-transform: uppercase; margin-bottom: 6px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; }
+    .equip-desc    { font-size: 12px; line-height: 1.85; color: var(--text-muted); }
+
+    /* ── TRAIT BARS ── */
+    .trait-row     { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+    .trait-label   { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; width: 130px; flex-shrink: 0; }
+    .trait-bar     { flex: 1; height: 3px; background: #1a1a2a; overflow: hidden; }
+    .trait-fill    { height: 100%; background: linear-gradient(90deg, #e8547a99, var(--rose)); width: 0; transition: width 1.3s ease; }
+    .trait-val     { font-size: 10px; color: var(--rose); width: 26px; text-align: right; flex-shrink: 0; }
+
+    /* ── INTEL BLOCKS ── */
+    .intel-block   { background: var(--bg-deep); border: 1px solid var(--rose-faint); padding: 14px 16px; margin-bottom: 8px; position: relative; }
+    .intel-block::before { content: attr(data-level); position: absolute; top: -8px; right: 12px; font-size: 8px; letter-spacing: 3px; color: var(--rose); background: var(--bg-deep); padding: 0 6px; text-transform: uppercase; }
+    .intel-text    { font-size: 12px; line-height: 1.85; color: var(--text-muted); }
+    .intel-text .flag { color: var(--rose); }
+
+    /* ── REDACTED ── */
+    .redacted      { background: #e0e0e8; color: transparent; user-select: none; border-radius: 1px; display: inline; }
+
+    /* ── FOOTER ── */
+    .footer        { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--rose-faint); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .footer-txt    { font-size: 9px; letter-spacing: 3px; color: #444458; text-transform: uppercase; }
+    .cursor        { display: inline-block; width: 8px; height: 13px; background: var(--rose); animation: blink 1s infinite; vertical-align: middle; margin-left: 3px; }
+
+    /* ── ANIMATION DELAYS ── */
+    .d1  { animation-delay: .10s; }
+    .d2  { animation-delay: .18s; }
+    .d25 { animation-delay: .25s; }
+    .d3  { animation-delay: .32s; }
+    .d35 { animation-delay: .40s; }
+    .d5  { animation-delay: .52s; }
+    .d55 { animation-delay: .58s; }
+    .d6  { animation-delay: .65s; }
+  </style>
+</head>
+<body>
+  <div class="scanline"></div>
+
+  <div class="container">
+
+    <a class="back-link" href="./index.html">Return to E.D.E.N. Core</a>
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="stamp">Classified</div>
+      <div class="header-meta">// E.D.E.N. Operative File — Earth's Dome &amp; Evacuation Nexus — Independent Registry</div>
+      <div class="header-name">NICCS <span>BROOKE</span></div>
+      <div class="header-sub">Pink Rose Reaper &nbsp;·&nbsp; Death Incarnate &nbsp;·&nbsp; Shapeshifter</div>
+    </div>
+
+    <!-- IDENTIFICATION -->
+    <div class="section d1">
+      <div class="section-label">// Subject Identification</div>
+      <div class="id-grid">
+        <div class="id-field"><div class="id-key">Registered Name</div><div class="id-val">Niccs Brooke</div></div>
+        <div class="id-field"><div class="id-key">Age</div><div class="id-val">21</div></div>
+        <div class="id-field"><div class="id-key">Status</div><div class="id-val pink">Active — Unaffiliated</div></div>
+        <div class="id-field"><div class="id-key">Classification</div><div class="id-val">Independent Operative</div></div>
+        <div class="id-field"><div class="id-key">Residence</div><div class="id-val dim">E.D.E.N. Interior — Sector Undisclosed</div></div>
+        <div class="id-field"><div class="id-key">Next of Kin</div><div class="id-val dim">None on Record</div></div>
+        <div class="id-field"><div class="id-key">Year of Birth (Est.)</div><div class="id-val dim">~005 EC — Eden Native</div></div>
+        <div class="id-field"><div class="id-key">File Date</div><div class="id-val dim">Solym — 026 EC</div></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ALIASES -->
+    <div class="section d2">
+      <div class="section-label">// Known Designations</div>
+      <div class="alias-group">
+        <div class="alias-tier">— Civilian Level</div>
+        <div class="alias-tags">
+          <span class="tag slate">Pink Haired Lady</span>
+          <span class="tag slate">Neighborhood's Hero</span>
+          <span class="tag slate">Female Robin Hood</span>
+        </div>
+      </div>
+      <div class="alias-group" style="margin-top:12px">
+        <div class="alias-tier">— Operative Level</div>
+        <div class="alias-tags">
+          <span class="tag rose">Shapeshifter</span>
+          <span class="tag rose">Pink Rose Reaper</span>
+          <span class="tag rose">Death Incarnate</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- APPEARANCE -->
+    <div class="section d25">
+      <div class="section-label">// Appearance &amp; Presence</div>
+      <p class="body-text">Niccs presents herself with an ease that borders on deliberate — the kind of person a room notices without being able to explain why. Her most identifying feature is her <span class="ac">pink hair</span>, the one constant she makes no effort to conceal. It has become her signature whether she intends it or not, giving rise to her most casual alias among Eden's civilians. <span class="hl">She wears a single ring on her right hand</span> — unassuming in appearance, never removed. Her hands, when looked at closely, carry the faint trace of embedded technology beneath the skin: barely visible lines, like circuitry that chose to stay quiet. She carries no visible weapons. She doesn't need to.</p>
+      <p class="body-text">Her disguise is not a mask or a change of clothes. <span class="hl">She keeps her real face at all times.</span> What she changes is everything else — posture, affect, cadence, presence. The mercenary who walks into a contract and the girl buying from a corner stall look identical. Nobody makes the connection. That's the point.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- BACKGROUND -->
+    <div class="section d3">
+      <div class="section-label">// Background — Operative History</div>
+      <p class="body-text">Niccs Brooke has no registered family. No guardian record. No institution trail. What exists is a <span class="hl">gap in the system</span> — a child who existed in a poor sector of E.D.E.N. and then, quietly, began to fill that gap herself. Born around <span class="ac">005 EC</span>, she is a product of the dome entirely — she has never seen what lies beyond the wall, never known the world that was lost, and carries none of the grief the first generation brought through the gates with them. To her, E.D.E.N. is not a refuge. It is simply where she is from. The 220-meter walls and the railway stations built into them are not symbols of survival. They are infrastructure. Background noise.</p>
+      <p class="body-text">By early adolescence she had taught herself enough engineering to build functional hardware from salvage. She sold it. Upgraded it. Sold it again. By the time most people her age were still figuring out what they wanted, she had already learned the more important lesson: <span class="ac">what you're good at is a currency, and she had more of it than anyone around her knew.</span></p>
+      <p class="body-text">The shift into contract work was not dramatic. It was practical. Her technical skills gave her access. Her instincts gave her an edge. And somewhere along the way she discovered that she was not just good at the work — she genuinely didn't mind it. <span class="hl">She operates under no faction, answers to no authority, and takes contracts from both sides of any line you care to draw.</span> Not because she has no principles, but because she decided a long time ago that principles are something you build yourself — and hers don't include anyone else's chain of command.</p>
+      <p class="body-text">In her neighborhood she is known differently. Nobody there connects the quiet pink-haired woman to the operative the underworld whispers about. What they know is that things get handled. Problems that should have stayed problems don't. <span class="ac">She doesn't explain it and they don't ask.</span> An unspoken arrangement that suits everyone.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- PSYCHOLOGICAL -->
+    <div class="section d35">
+      <div class="section-label">// Psychological Assessment</div>
+      <p class="body-text">Niccs is <span class="hl">unbothered in a way that is not performed</span> — she genuinely does not carry the weight of other people's opinions. She speaks directly, filters little, and has a low tolerance for things she finds unnecessary, which covers a surprisingly wide range of human behavior. This is not cruelty. It is economy. She says what she means and expects the same in return.</p>
+      <p class="body-text">She is also <span class="hl">deeply competent and quietly knows it.</span> There is no need to announce what you can simply demonstrate. Her confidence is not loud — it is the kind that has never needed an audience.</p>
+      <p class="body-text">In the field, her only reported behavioral anomaly is a marked preference for engagement over avoidance on low-difficulty contracts. <span class="ac">When a mission is too easy, boredom becomes a variable.</span> Boredom, in her case, tends toward violence. Operatives who have worked adjacent to her have noted that she appears to find straightforward extractions somewhat disappointing.</p>
+      <p class="body-text"><span class="hl">Romantic interaction constitutes a classified soft point.</span> Subject demonstrates consistent and apparently involuntary system failure when approached sincerely in this context. Avoidance behavior is aggressive. Denial is immediate and unconvincing. Further detail is unavailable as no one has successfully documented a second occurrence.</p>
+
+      <!-- TRAIT BARS -->
+      <div style="margin-top:22px" id="trait-container">
+        <div class="trait-row"><div class="trait-label">Combat Aptitude</div><div class="trait-bar"><div class="trait-fill" data-val="97"></div></div><div class="trait-val">97</div></div>
+        <div class="trait-row"><div class="trait-label">Technical Intel</div><div class="trait-bar"><div class="trait-fill" data-val="91"></div></div><div class="trait-val">91</div></div>
+        <div class="trait-row"><div class="trait-label">Threat Level</div><div class="trait-bar"><div class="trait-fill" data-val="88"></div></div><div class="trait-val">88</div></div>
+        <div class="trait-row"><div class="trait-label">Composure</div><div class="trait-bar"><div class="trait-fill" data-val="85"></div></div><div class="trait-val">85</div></div>
+        <div class="trait-row"><div class="trait-label">Emotional Guard</div><div class="trait-bar"><div class="trait-fill" data-val="94"></div></div><div class="trait-val">94</div></div>
+        <div class="trait-row"><div class="trait-label">Romance Tolerance</div><div class="trait-bar"><div class="trait-fill" data-val="3"></div></div><div class="trait-val">3</div></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- EQUIPMENT -->
+    <div class="section d5">
+      <div class="section-label">// Equipment &amp; Augmentations</div>
+      <div class="equip-item">
+        <div class="equip-name">Type-Ø Containment Ring — "The Vessel"</div>
+        <div class="equip-desc">A single ring worn on the right hand. The ring itself is inert — its only function is containment. The actual weapon is the compressed energy stored within it: a scythe of considerable destructive yield formed entirely from controlled energy output. The ring is not the weapon. The ring is the box. Most people who try to take it find out the difference immediately.</div>
+      </div>
+      <div class="equip-item">
+        <div class="equip-name">Subdermal Energy Interface — "The Hands"</div>
+        <div class="equip-desc">Embedded technology within both hands allows Niccs to interface directly with the weapon's energy, controlling it with fluid precision — dispersing, reshaping, and redirecting it in real-time as though it were a liquid suspended in the air. If the scythe is destroyed, confiscated, or forcibly removed, the energy can be phased out of the weapon through any surface. It was never theirs to keep.</div>
+      </div>
+      <div class="equip-item">
+        <div class="equip-name">Personal Modifications — Self-Engineered</div>
+        <div class="equip-desc">Niccs designs, repairs, and upgrades her own equipment. She does not work with outside armorers or rely on suppliers. When her gear requires maintenance she handles it personally — with a level of technical fluency that suggests most of what she carries was built from scratch to begin with.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- AMALGAMATION -->
+    <div class="section d55">
+      <div class="section-label">// Amalgamation — Threat Assessment &amp; Engagement Record</div>
+      <p class="body-text">The <span class="ac">Amalgamation</span> — the collective designation for the infestation that drove humanity behind E.D.E.N.'s walls — is the defining threat of this era. For most citizens of the dome, it is the source of generational trauma, the thing their parents fled from, the reason the 220-meter walls exist at all. For Niccs Brooke, it is a <span class="hl">contract category.</span></p>
+      <p class="body-text">Born inside the dome, she carries none of the inherited fear. She did not watch the world fall. She does not mourn what was lost outside. What she has is a precise, technical read on what the Amalgamation actually represents in an engagement scenario — and that read is straightforwardly <span class="ac">favorable.</span> Amalgamation contracts are not boring. They do not have easy routes or low-resistance extractions. They require actual attention, actual improvisation, and an actual threat of consequence. By her own internal metrics, that qualifies as good work.</p>
+      <p class="body-text">She has accepted wall-side contracts on multiple occasions — perimeter defense, breach response, station-to-station escort along the wall railway — and has been noted by military personnel as <span class="hl">effective in ways that are difficult to formally document</span>, given that she leaves no filing trail and the engagements she was present for tend to end faster than expected. Whether she has operated beyond the wall is <span class="ac">unconfirmed by official record.</span> The unofficial inference is left to the reader.</p>
+      <p class="body-text">Her stance on the government's long-term reclamation objective is unrecorded. She has not volunteered an opinion. The most reliable inference available is that if a contract is attached to it and the Amalgamation is involved, <span class="hl">she will consider it.</span></p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SUPPLEMENTARY INTEL -->
+    <div class="section d6">
+      <div class="section-label">// Supplementary Intel — Low Clearance</div>
+      <div class="intel-block" data-level="note">
+        <p class="intel-text">Subject maintains one known pet: a jellyfish, species <span class="redacted">undisclosed</span>, kept in her personal residence. Behavioral observation indicates she speaks to it with a candor not otherwise documented in any professional or social context. Whether this constitutes emotional disclosure or simply the habit of someone who prefers an audience that cannot repeat what it hears is <span class="flag">unconfirmed.</span></p>
+      </div>
+      <div class="intel-block" data-level="note">
+        <p class="intel-text">Subject has demonstrated a marked and apparently involuntary positive response to rabbits. Behavioral shift upon visual contact includes a measurable drop in baseline aggression, slowed movement, and — on <span class="flag">one documented occasion</span> — an attempt to conceal the reaction upon noticing she was being observed. The attempt was unsuccessful.</p>
+      </div>
+      <div class="intel-block" data-level="note">
+        <p class="intel-text">Despite operating freely across both sides of legitimate and illegitimate contracts, Niccs maintains an <span class="flag">unofficial pattern of material redistribution</span> toward the lower-sector neighborhood where she grew up. She has not acknowledged this publicly. She has not denied it either. It is, like most things about her, simply present — in the background, deliberate, and not up for discussion.</p>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-txt">E.D.E.N. Operative Registry — File NB-21 — Eyes Only</div>
+      <div class="footer-txt">Solym — 026 EC &nbsp;·&nbsp; STATUS: ACTIVE <span class="cursor"></span></div>
+    </div>
+
+  </div><!-- /container -->
+
+  <script>
+    // Animate trait bars on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.querySelectorAll('.trait-fill').forEach(bar => {
+          bar.style.width = bar.dataset.val + '%';
+        });
+      }, 400);
+    });
+  </script>
+</body>
+</html>
